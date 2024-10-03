@@ -2,10 +2,9 @@ import 'dotenv/config';  // Load environment variables
 
 import express from 'express';
 import fetch from 'node-fetch';  // Use import for node-fetch
+import cors from 'cors'; 
 
 const app = express();
-
-const cors = require('cors');
 
 const PORT = 3000;
 
