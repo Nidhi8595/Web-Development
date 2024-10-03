@@ -11,7 +11,15 @@ m.classList.add('default-background');
 
 button.addEventListener("click", function () {
     const city = document.getElementById("city").value;
-    const apiKey = '4ad015d02da789e66f028813c95415db';
+    const apiKey = async function fetchWeather(city) {
+        try {
+            const response = await fetch(`http://localhost:3000/weather?city=${city}`);
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error('Error fetching weather data:', error);
+        }
+    };
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
     if (city) {
