@@ -5,7 +5,11 @@ import fetch from 'node-fetch';  // Use import for node-fetch
 
 const app = express();
 
+const cors = require('cors');
+
 const PORT = 3000;
+
+app.use(cors());
 
 app.use(express.json());  // Middleware to parse JSON
 

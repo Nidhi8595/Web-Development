@@ -11,30 +11,26 @@ m.classList.add('default-background');
 
 button.addEventListener("click", function () {
     const city = document.getElementById("city").value;
-    const apiKey = async function fetchWeather(city) {
-        try {
-            const response = await fetch(`http://localhost:3000/weather?city=${city}`);
-            const data = await response.json();
-            console.log(data);
-        } catch (error) {
-            console.error('Error fetching weather data:', error);
-        }
-    };
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    // Use your deployed backend URL to fetch the weather data
+    const apiUrl = `https://web-development-2-9gzh.onrender.com/weather?city=${city}`;
 
     if (city) {
         fetch(apiUrl)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.status);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.cod === 200) {
-
                     h2.style.display = "none";
                     res.style.display = "block";
                     displayWeather(data);
                     updateBackground(data);
                     button.style.display = "none";
                     detailedButton.style.display = "block";  // Show detailed button
-
                     detailedRes.style.display = "none";
                 } else {
                     res.innerHTML = "<p>City not found</p>";
@@ -42,6 +38,7 @@ button.addEventListener("click", function () {
                 }
             })
             .catch(error => {
+                console.error('Error fetching weather data:', error);
                 res.innerHTML = "<p>Error fetching weather data</p>";
             });
     } else {
@@ -51,12 +48,18 @@ button.addEventListener("click", function () {
 
 detailedButton.addEventListener("click", function () {
     const city = document.getElementById("city").value;
-    const apiKey = '4ad015d02da789e66f028813c95415db';
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+
+    // Use your backend URL for detailed forecast
+    const forecastUrl = `https://web-development-2-9gzh.onrender.com/forecast?city=${city}`;
 
     if (city) {
         fetch(forecastUrl)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.status);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.cod === "200") {
                     res.style.display = "none"; // Hide main weather details
@@ -73,6 +76,7 @@ detailedButton.addEventListener("click", function () {
             });
     }
 });
+
 
 // Function to update background based on weather condition
 function updateBackground(data) {

@@ -1,14 +1,14 @@
 {
   "name": "weather-backend",
   "version": "1.0.0",
-  "main": "server.mjs", 
+  "main": "server.mjs",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "node-fetch": "^3.3.2"
   },
-
   "scripts": {
-    "start": "node server.mjs" 
+    "start": "node server.mjs"
   }
 }
