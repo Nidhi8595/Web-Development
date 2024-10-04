@@ -264,8 +264,31 @@ button:hover {
     font-weight: 500;
 }
 
+@media(max-width:600px) {
+    #main {
+        width: 100vw;
+    }
+    #first {
+        top: 20px;
+        font-size: 4.9vw;
+    }
+
+    input,
+    button {
+        width: 80%;
+    }
+
+    .weather-result {
+        width: 95%;
+    }
+
+    #showDetailed {
+       top:450px;
+    }
+}
+
 /* Responsive Design */
-@media (max-width: 768px) {
+@media only screen and (min-width: 600px) and (max-width: 768px){
     #main {
         width: 60vw;
         height: 90vh;
@@ -287,29 +310,6 @@ button:hover {
 
     #showDetailed {
         top: 390px;
-    }
-}
-
-@media(max-width:600px) {
-    #main {
-        width: 100vw;
-    }
-    #first {
-        top: 20px;
-        font-size: 4.9vw;
-    }
-
-    input,
-    button {
-        width: 80%;
-    }
-
-    .weather-result {
-        width: 95%;
-    }
-
-    #showDetailed {
-        top: 600px;
     }
 }
 
