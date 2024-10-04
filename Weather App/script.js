@@ -61,7 +61,7 @@ detailedButton.addEventListener("click", function () {
                 if (data.cod === "200") {
                     res.style.display = "none";  // Hide main weather details
                     detailedButton.style.display = "none";
-                    detailedRes.style.display = "flex";  // Show detailed weather
+                    detailedRes.style.display = "flex";  // Show detailed 
                     displayDetailedWeather(data);
                     button.style.display = "inline";
                 } else {
