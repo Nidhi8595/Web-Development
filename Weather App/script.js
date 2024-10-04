@@ -46,7 +46,7 @@ button.addEventListener("click", function () {
 
 // fetching 5-day forecast
 detailedButton.addEventListener("click", function () {
-    const city = document.getElementById("city").value;
+    const city = document.getElementById("city").value.trim().toLowerCase();
     const forecastUrl = `https://web-development-3-zvef.onrender.com/forecast?city=${city}`;
 
     if (city) {
