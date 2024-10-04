@@ -8,12 +8,10 @@ var m = document.querySelector("#main");
 // Set default background
 m.classList.add('default-background');
 
-// Event listener for fetching weather data
+// Event listener for fetching current weather
 button.addEventListener("click", function () {
     const city = document.getElementById("city").value.trim();
-    console.log("City entered:", city);
-
-    const apiUrl = `https://web-development-2-9gzh.onrender.com/weather?city=${city}`;
+    const apiUrl = `https://your-backend-domain.com/weather?city=${city}`;  // Update with your actual backend domain
 
     if (city) {
         fetch(apiUrl)
@@ -24,7 +22,6 @@ button.addEventListener("click", function () {
                 return response.json();
             })
             .then(data => {
-                console.log("Weather data received:", JSON.stringify(data, null, 2));
                 if (data.cod === 200) {
                     h2.style.display = "none";
                     res.style.display = "block";
@@ -39,7 +36,6 @@ button.addEventListener("click", function () {
                 }
             })
             .catch(error => {
-                console.error('Error fetching weather data:', error);
                 res.innerHTML = "<p>Error fetching weather data</p>";
             });
     } else {
@@ -47,11 +43,10 @@ button.addEventListener("click", function () {
     }
 });
 
-// Event listener for fetching detailed weather forecast
+// Event listener for fetching 5-day forecast
 detailedButton.addEventListener("click", function () {
     const city = document.getElementById("city").value;
-
-    const forecastUrl = `https://web-development-2-9gzh.onrender.com/forecast?city=${city}`;
+    const forecastUrl = `https://your-backend-domain.com/forecast?city=${city}`;  // Update with your actual backend domain
 
     if (city) {
         fetch(forecastUrl)
@@ -63,9 +58,9 @@ detailedButton.addEventListener("click", function () {
             })
             .then(data => {
                 if (data.cod === "200") {
-                    res.style.display = "none"; // Hide main weather details
+                    res.style.display = "none";  // Hide main weather details
                     detailedButton.style.display = "none";
-                    detailedRes.style.display = "flex"; // Show detailed weather
+                    detailedRes.style.display = "flex";  // Show detailed weather
                     displayDetailedWeather(data);
                     button.style.display = "inline";
                 } else {
@@ -73,13 +68,12 @@ detailedButton.addEventListener("click", function () {
                 }
             })
             .catch(error => {
-                console.error('Error fetching forecast data:', error);
                 detailedRes.innerHTML = "<p>Error fetching forecast data</p>";
             });
     }
 });
 
-// Function to update background based on weather condition
+// Update background based on weather conditions
 function updateBackground(data) {
     m.classList.remove('day', 'night', 'dynamic-clear', 'dynamic-rain', 'dynamic-thunder', 'dynamic-sunset', 'cloudy', 'dynamic-fog', 'dynamic-haze', 'dynamic-sunny', 'dynamic-mist', 'default-background', 'clear-night', 'dynamic-sunrise', 'dynamic-snow');
 
@@ -98,12 +92,8 @@ function updateBackground(data) {
     }
 
     const weatherConditions = data.weather[0].main.toLowerCase();
-
-    // Update background based on weather condition
-    if (weatherConditions.includes('clear') && currentTime >= sunsetTime && currentTime < sunriseTime) {
-        m.classList.add('clear-night');
-    } else if (weatherConditions.includes('clear')) {
-        m.classList.add('dynamic-clear');
+    if (weatherConditions.includes('clear')) {
+        m.classList.add(currentTime >= sunsetTime || currentTime < sunriseTime ? 'clear-night' : 'dynamic-clear');
     } else if (weatherConditions.includes('rain')) {
         m.classList.add('dynamic-rain');
     } else if (weatherConditions.includes('clouds')) {
@@ -123,22 +113,21 @@ function updateBackground(data) {
     }
 }
 
-// Display weather function
+// Display current weather details
 function displayWeather(data) {
     const weatherInfo = `
-        <h3 id="abc">Weather in ${data.name}</h3>
-        <div id="weatherCard" class="weather-card">
-            <p>Weather : ${data.weather[0].description}</p>
-            <p>Temperature : ${data.main.temp}°C</p>
-            <p>Humidity : ${data.main.humidity}%</p>
-            <p>Wind Speed : ${data.wind.speed} m/s</p>
+        <h3>Weather in ${data.name}</h3>
+        <div class="weather-card">
+            <p>Weather: ${data.weather[0].description}</p>
+            <p>Temperature: ${data.main.temp}°C</p>
+            <p>Humidity: ${data.main.humidity}%</p>
+            <p>Wind Speed: ${data.wind.speed} m/s</p>
         </div>
     `;
-
     res.innerHTML = weatherInfo;
 }
 
-// Display detailed forecast function (5-day forecast)
+// Display detailed weather forecast (5-day forecast)
 function displayDetailedWeather(data) {
     let forecastHTML = "";
     const forecasts = data.list.filter(item => item.dt_txt.includes("12:00:00"));
@@ -149,30 +138,30 @@ function displayDetailedWeather(data) {
 
         forecastHTML += `
             <div class="forecast-card ${cardBackgroundClass}">
-                <p><strong>Date :</strong> ${date}</p>
-                <p><strong>Weather :</strong> ${forecast.weather[0].description}</p>
-                <p><strong>Temp :</strong> ${forecast.main.temp}°C</p>
-                <p><strong>Humidity :</strong> ${forecast.main.humidity}%</p>
+                <p><strong>Date:</strong> ${date}</p>
+                <p><strong>Weather:</strong> ${forecast.weather[0].description}</p>
+                <p><strong>Temp:</strong> ${forecast.main.temp}°C</p>
+                <p><strong>Humidity:</strong> ${forecast.main.humidity}%</p>
             </div>
         `;
     });
-
     detailedRes.innerHTML = forecastHTML;
 }
 
-// Function to return a background class based on weather condition
+// Get card background class based on weather condition
 function getCardBackgroundClass(weatherCondition) {
-    if (weatherCondition === 'clear') {
-        return 'sunny-background';
-    } else if (weatherCondition === 'rain') {
-        return 'rainy-background';
-    } else if (weatherCondition === 'clouds') {
-        return 'cloudy-background';
-    } else if (weatherCondition === 'thunderstorm') {
-        return 'thunder-background';
-    } else if (weatherCondition === 'snow') {
-        return 'snowy-background';
-    } else {
-        return 'default-backg';
+    switch (weatherCondition) {
+        case 'clear':
+            return 'sunny-background';
+        case 'rain':
+            return 'rainy-background';
+        case 'clouds':
+            return 'cloudy-background';
+        case 'thunderstorm':
+            return 'thunder-background';
+        case 'snow':
+            return 'snowy-background';
+        default:
+            return 'default-backg';
     }
 }
