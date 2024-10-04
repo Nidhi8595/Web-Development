@@ -8,10 +8,10 @@ var m = document.querySelector("#main");
 // Set default background
 m.classList.add('default-background');
 
-// Event listener for fetching current weather
+// fetching current weather
 button.addEventListener("click", function () {
     const city = document.getElementById("city").value.trim();
-    const apiUrl = `https://your-backend-domain.com/weather?city=${city}`;  // Update with your actual backend domain
+    const apiUrl = `https://web-development-2-9gzh.onrender.com/weather?city=${city}`;
 
     if (city) {
         fetch(apiUrl)
@@ -40,13 +40,14 @@ button.addEventListener("click", function () {
             });
     } else {
         res.innerHTML = "<p>Please enter a city</p>";
+        alert("Please enter a City");
     }
 });
 
-// Event listener for fetching 5-day forecast
+// fetching 5-day forecast
 detailedButton.addEventListener("click", function () {
     const city = document.getElementById("city").value;
-    const forecastUrl = `https://your-backend-domain.com/forecast?city=${city}`;  // Update with your actual backend domain
+    const forecastUrl = `https://web-development-2-9gzh.onrender.com/forecast?city=${city}`;
 
     if (city) {
         fetch(forecastUrl)
@@ -116,7 +117,7 @@ function updateBackground(data) {
 // Display current weather details
 function displayWeather(data) {
     const weatherInfo = `
-        <h3>Weather in ${data.name}</h3>
+        <h3 id="weatherTitle">Weather in ${data.name}</h3>
         <div class="weather-card">
             <p>Weather: ${data.weather[0].description}</p>
             <p>Temperature: ${data.main.temp}°C</p>
@@ -125,7 +126,13 @@ function displayWeather(data) {
         </div>
     `;
     res.innerHTML = weatherInfo;
+
+    const h3 = document.getElementById("weatherTitle");
+    h3.style.fontFamily = "Verdana, Geneva, Tahoma, sans-serif";
+    h3.style.fontSize = "20px";
+    h3.style.marginBottom = "5px";
 }
+
 
 // Display detailed weather forecast (5-day forecast)
 function displayDetailedWeather(data) {
