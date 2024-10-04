@@ -301,15 +301,15 @@ button:hover {
 
     input,
     button {
-        width: 70%;
+        width: 80%;
     }
 
     .weather-result {
-        width: 90%;
+        width: 95%;
     }
 
     #showDetailed {
-        top: 390px;
+        top: 600px;
     }
 }
 
