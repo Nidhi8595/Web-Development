@@ -1,4 +1,3 @@
-
 var h2 = document.querySelector("#first");
 var button = document.getElementById("getWeather");
 var detailedButton = document.getElementById("showDetailed");
@@ -9,10 +8,11 @@ var m = document.querySelector("#main");
 // Set default background
 m.classList.add('default-background');
 
+// Event listener for fetching weather data
 button.addEventListener("click", function () {
-    const city = document.getElementById("city").value;
+    const city = document.getElementById("city").value.trim();
+    console.log("City entered:", city);
 
-    // Use your deployed backend URL to fetch the weather data
     const apiUrl = `https://web-development-2-9gzh.onrender.com/weather?city=${city}`;
 
     if (city) {
@@ -24,17 +24,18 @@ button.addEventListener("click", function () {
                 return response.json();
             })
             .then(data => {
+                console.log("Weather data received:", JSON.stringify(data, null, 2));
                 if (data.cod === 200) {
                     h2.style.display = "none";
                     res.style.display = "block";
                     displayWeather(data);
-                    updateBackground(data);
+                    updateBackground(data);  // Update background based on the weather data
                     button.style.display = "none";
-                    detailedButton.style.display = "block";  // Show detailed button
+                    detailedButton.style.display = "block";  // Show the "detailed" button
                     detailedRes.style.display = "none";
                 } else {
                     res.innerHTML = "<p>City not found</p>";
-                    detailedButton.style.display = "none";  // Hide detailed button if city is not found
+                    detailedButton.style.display = "none";
                 }
             })
             .catch(error => {
@@ -46,10 +47,10 @@ button.addEventListener("click", function () {
     }
 });
 
+// Event listener for fetching detailed weather forecast
 detailedButton.addEventListener("click", function () {
     const city = document.getElementById("city").value;
 
-    // Use your backend URL for detailed forecast
     const forecastUrl = `https://web-development-2-9gzh.onrender.com/forecast?city=${city}`;
 
     if (city) {
@@ -72,15 +73,14 @@ detailedButton.addEventListener("click", function () {
                 }
             })
             .catch(error => {
+                console.error('Error fetching forecast data:', error);
                 detailedRes.innerHTML = "<p>Error fetching forecast data</p>";
             });
     }
 });
 
-
 // Function to update background based on weather condition
 function updateBackground(data) {
-
     m.classList.remove('day', 'night', 'dynamic-clear', 'dynamic-rain', 'dynamic-thunder', 'dynamic-sunset', 'cloudy', 'dynamic-fog', 'dynamic-haze', 'dynamic-sunny', 'dynamic-mist', 'default-background', 'clear-night', 'dynamic-sunrise', 'dynamic-snow');
 
     const currentTime = Math.floor(Date.now() / 1000);
@@ -99,53 +99,31 @@ function updateBackground(data) {
 
     const weatherConditions = data.weather[0].main.toLowerCase();
 
-    // const weatherCondition = weatherConditions.split(' ')[0];
-
     // Update background based on weather condition
-    if ((weatherConditions.includes('clear')) && ((currentTime >= sunsetTime) && (currentTime < sunriseTime))) {
-        m.classList.remove('day', 'night', 'dynamic-sunset', 'dynamic-sunrise');
+    if (weatherConditions.includes('clear') && currentTime >= sunsetTime && currentTime < sunriseTime) {
         m.classList.add('clear-night');
-    }
-    else if (weatherConditions.includes('clear')) {
-        m.classList.remove('day', 'night', 'dynamic-sunset', 'dynamic-sunrise')
+    } else if (weatherConditions.includes('clear')) {
         m.classList.add('dynamic-clear');
-    }
-    else if (weatherConditions.includes('rain')) {
-        m.classList.remove('day', 'night', 'dynamic-sunset', 'dynamic-sunrise')
+    } else if (weatherConditions.includes('rain')) {
         m.classList.add('dynamic-rain');
-    }
-    else if (weatherConditions.includes('clouds')) {
-        m.classList.remove('day', 'night', 'dynamic-sunset', 'dynamic-sunrise');
+    } else if (weatherConditions.includes('clouds')) {
         m.classList.add('cloudy');
-    }
-    else if (weatherConditions.includes('sunny')) {
-        m.classList.remove('day', 'night', 'dynamic-sunset', 'dynamic-sunrise')
+    } else if (weatherConditions.includes('sunny')) {
         m.classList.add('dynamic-sunny');
-    }
-    else if (weatherConditions.includes('thunderstorm')) {
-        m.classList.remove('day', 'night', 'dynamic-sunset', 'dynamic-sunrise')
+    } else if (weatherConditions.includes('thunderstorm')) {
         m.classList.add('dynamic-thunder');
-    }
-    else if (weatherConditions.includes('fog')) {
-        m.classList.remove('day', 'night', 'dynamic-sunset', 'dynamic-sunrise')
+    } else if (weatherConditions.includes('fog')) {
         m.classList.add('dynamic-fog');
-    }
-    else if (weatherConditions.includes('haze')) {
-        m.classList.remove('day', 'night', 'dynamic-sunset', 'dynamic-sunrise')
+    } else if (weatherConditions.includes('haze')) {
         m.classList.add('dynamic-haze');
-    }
-    else if (weatherConditions.includes('mist')) {
-        m.classList.remove('day', 'night', 'dynamic-sunset', 'dynamic-sunrise')
+    } else if (weatherConditions.includes('mist')) {
         m.classList.add('dynamic-mist');
-    }
-    else if (weatherConditions.includes('snow')) {
-        m.classList.remove('day', 'night', 'dynamic-sunset', 'dynamic-sunrise')
+    } else if (weatherConditions.includes('snow')) {
         m.classList.add('dynamic-snow');
     }
-
 }
 
-// Function to display current weather
+// Display weather function
 function displayWeather(data) {
     const weatherInfo = `
         <h3 id="abc">Weather in ${data.name}</h3>
@@ -158,37 +136,15 @@ function displayWeather(data) {
     `;
 
     res.innerHTML = weatherInfo;
-
-    const weatherCard = document.getElementById("weatherCard");
-    const h3 = document.querySelector("#abc");
-
-    h3.style.fontFamily = "monument";
-    h3.style.fontWeight = "500";
-    h3.style.transform = "scaleY(1.3)";
-    h3.style.textShadow = "2px 2px 3px rgba(6, 6, 7, 0.652)";
-    h3.style.textAlign = "center";
-    h3.style.margin = "7px";
-
-    weatherCard.style.margin = "5px";
-    weatherCard.style.color = "black";
-    weatherCard.style.fontWeight = "500";
-    weatherCard.style.fontSize = "17px";
-    weatherCard.style.textShadow = "2px 2px 3px rgba(6, 6, 7, 0.652)";
-    weatherCard.style.lineHeight = "20px";
-    weatherCard.style.textAlign = "left";
 }
 
-
-// Function to display 5-day detailed forecast
+// Display detailed forecast function (5-day forecast)
 function displayDetailedWeather(data) {
-
     let forecastHTML = "";
-
     const forecasts = data.list.filter(item => item.dt_txt.includes("12:00:00"));
     forecasts.forEach(forecast => {
         const date = new Date(forecast.dt_txt).toLocaleDateString();
         const weatherCondition = forecast.weather[0].main.toLowerCase();
-
         const cardBackgroundClass = getCardBackgroundClass(weatherCondition);
 
         forecastHTML += `
