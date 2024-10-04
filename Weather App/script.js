@@ -11,7 +11,7 @@ m.classList.add('default-background');
 // current weather
 button.addEventListener("click", function () {
     const city = document.getElementById("city").value.trim();
-    const apiUrl = `https://web-development-2-9gzh.onrender.com/weather?city=${city}`;
+    const apiUrl = `https://web-development-3-zvef.onrender.com/weather?city=${city}`;
 
     if (city) {
         fetch(apiUrl)
@@ -47,7 +47,7 @@ button.addEventListener("click", function () {
 // fetching 5-day forecast
 detailedButton.addEventListener("click", function () {
     const city = document.getElementById("city").value;
-    const forecastUrl = `https://web-development-2-9gzh.onrender.com/forecast?city=${city}`;
+    const forecastUrl = `https://web-development-3-zvef.onrender.com/forecast?city=${city}`;
 
     if (city) {
         fetch(forecastUrl)
