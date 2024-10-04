@@ -8,7 +8,7 @@ var m = document.querySelector("#main");
 // Set default background
 m.classList.add('default-background');
 
-// fetching current weather
+// current weather
 button.addEventListener("click", function () {
     const city = document.getElementById("city").value.trim();
     const apiUrl = `https://web-development-2-9gzh.onrender.com/weather?city=${city}`;
