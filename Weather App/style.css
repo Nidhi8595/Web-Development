@@ -290,6 +290,29 @@ button:hover {
     }
 }
 
+@media(max-width:600px) {
+    #main {
+        width: 90vw;
+    }
+    #first {
+        top: 20px;
+        font-size: 4.9vw;
+    }
+
+    input,
+    button {
+        width: 70%;
+    }
+
+    .weather-result {
+        width: 90%;
+    }
+
+    #showDetailed {
+        top: 390px;
+    }
+}
+
 .sunny-background {
     background: linear-gradient(to bottom, #b99b13, #d1ccbd);
 }
