@@ -120,7 +120,7 @@ function displayWeather(data) {
         <h3 id="weatherTitle">Weather in ${data.name}</h3>
         <div class="weather-card">
             <p>Weather: ${data.weather[0].description}</p>
-            <p>Temperature: ${data.main.temp}°C</p>
+            <p>Temperature: ${Math.round(data.main.temp - 273.15)}°C</p>
             <p>Humidity: ${data.main.humidity}%</p>
             <p>Wind Speed: ${data.wind.speed} m/s</p>
         </div>
