@@ -189,7 +189,7 @@ button:hover {
 
 #showDetailed {
     position: absolute;
-    top: 400px;
+    bottom: 150px;
     display: none;
 }
 
